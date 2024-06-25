@@ -1,6 +1,9 @@
 import queryString from 'query-string'
 import Layout from './Layout'
-import BeforeLogin from '../pages/BeforeLogin';
+import AfterLogin from '../pages/AfterLogin'
+import BeforeLogin from '../pages/BeforeLogin'
+
+const access_token = sessionStorage.getItem('access_token')
 
 const generateRandomString = (length) => {
   let text = '';
@@ -12,7 +15,7 @@ const generateRandomString = (length) => {
 }
 
 const handleLogin = () => {
-  const state = generateRandomString(16);
+  const state = generateRandomString(16)
   const queryParams = queryString.stringify({
     response_type: 'code',
     client_id: import.meta.env.VITE_CLIENT_ID,
@@ -23,14 +26,13 @@ const handleLogin = () => {
   })
 
   window.location.href = `https://accounts.spotify.com/authorize?${queryParams}`
-  console.log(`https://accounts.spotify.com/authorize?${queryParams}`)
 }
 
 const LandingPage = () => {
   return (
     <div>
       <Layout handleLogin={handleLogin} />
-      <BeforeLogin />
+      {access_token ? <AfterLogin /> : <BeforeLogin />}
     </div>
   )
 }

@@ -19,5 +19,10 @@
 }
 
 .icon{
-    color: aliceblue !important;
+    /* color: aliceblue !important; */
+    color: aliceblue !important
+}
+
+.text{
+    color:aliceblue
 }

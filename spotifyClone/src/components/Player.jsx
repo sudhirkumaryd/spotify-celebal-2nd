@@ -166,7 +166,7 @@ const MusicPlayerSlider = () => {
         </Stack>
       </Widget>
     </Box>
-  );
-};
+  )
+}
 
-export default MusicPlayerSlider;
+export default MusicPlayerSlider

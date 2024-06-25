@@ -6,10 +6,18 @@ import Toolbar from '@mui/material/Toolbar'
 import Button from '@mui/material/Button'
 import InputBase from '@mui/material/InputBase'
 import SearchIcon from '@mui/icons-material/Search'
-import { Typography } from '@mui/material'
+import { Typography, MenuItem, Menu } from '@mui/material'
 import './AppbarActual.css'
+import { Link } from 'react-router-dom'
+import { useState, useEffect, useCallback } from 'react'
+import axios from 'axios'
 
 const AppbarActual = ({ handleLogin }) => {
+    const [query, setQuery] = useState('')
+    const [results, setResults] = useState([])
+    const [anchorEl, setAnchorEl] = useState(null)
+    const accessToken = sessionStorage.getItem('access_token')
+    const [isFocused, setIsFocused] = useState(false)
 
     const Search = styled('div')(({ theme }) => ({
         position: 'relative',
@@ -24,7 +32,7 @@ const AppbarActual = ({ handleLogin }) => {
             marginLeft: theme.spacing(6.75),
             width: 'auto',
         },
-    }));
+    }))
 
     const SearchIconWrapper = styled('div')(({ theme }) => ({
         padding: theme.spacing(0, 2),
@@ -34,7 +42,7 @@ const AppbarActual = ({ handleLogin }) => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-    }));
+    }))
 
     const StyledInputBase = styled(InputBase)(({ theme }) => ({
         color: 'inherit',
@@ -49,11 +57,56 @@ const AppbarActual = ({ handleLogin }) => {
         },
     }))
 
+    const searchFunction = useCallback(async (searchQuery) => {
+        if (!searchQuery) {
+            setResults([])
+            return
+        }
+
+        try {
+            const response = await axios.get(`https://api.spotify.com/v1/search`, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                },
+                params: {
+                    q: searchQuery,
+                    type: 'track,artist,album',
+                    limit: 5
+                }
+            })
+            setResults(response.data.tracks.items.concat(response.data.artists.items, response.data.albums.items))
+            setAnchorEl(document.getElementById('search-bar'))
+        } catch (err) {
+            console.log('Error fetching search results:', err)
+        }
+    }, [accessToken])
+
+    useEffect(() => {
+        const debounceTimeout = setTimeout(() => {
+            searchFunction(query)
+        }, 300)
+
+        return () => clearTimeout(debounceTimeout)
+    }, [query, searchFunction])
+
+    const handleSearchChange = (event) => {
+        setQuery(event.target.value)
+    }
+
+    const handleFocus = () => {
+        setIsFocused(true)
+    }
+
+    const handleClose = () => {
+        setAnchorEl(null)
+        setIsFocused(false)
+    }
+
     return (
         <Box>
             <AppBar position='fixed' className='appbar'>
                 <Toolbar>
-                    <Typography variant='h4'>
+                    <Typography variant='h4' component={Link} to='/' color='white'>
                         SONGIFY
                     </Typography>
                     <Search>
@@ -61,13 +114,33 @@ const AppbarActual = ({ handleLogin }) => {
                             <SearchIcon />
                         </SearchIconWrapper>
                         <StyledInputBase
+                            id='search-bar'
                             placeholder="Search…"
                             inputProps={{ 'aria-label': 'search' }}
+                            value={query}
+                            onChange={handleSearchChange}
+                            onFocus={handleFocus}
                         />
                     </Search>
                     <Button className='spotifyButton' onClick={handleLogin}>Login</Button>
                 </Toolbar>
             </AppBar>
+            <Menu
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl) && isFocused}
+                onClose={handleClose}
+                PaperProps={{
+                    style: {
+                        width: document.getElementById('search-bar') ? document.getElementById('search-bar').clientWidth : 'auto',
+                    },
+                }}
+            >
+                {results.map((result, index) => (
+                    <MenuItem key={index} component="a" href={result.external_urls.spotify} target='_blank' onClick={handleClose}>
+                        {result.name}
+                    </MenuItem>
+                ))}
+            </Menu>
         </Box>
     )
 }
