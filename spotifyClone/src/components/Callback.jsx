@@ -10,17 +10,17 @@ const Callback = ({ handleLogin }) => {
 
   useEffect(() => {
     const fetchToken = async () => {
-      const code = queryString.parse(window.location.search).code; // Assuming you're extracting 'code' from query params
-      const state = queryString.parse(window.location.search).state; // Assuming you're extracting 'state' from query params
-  
+      const code = queryString.parse(window.location.search).code
+      const state = queryString.parse(window.location.search).state
+
       if (!state) {
-          window.location.href = '/#' + queryString.stringify({ error: 'state_mismatch' });
+          window.location.href = '/#' + queryString.stringify({ error: 'state_mismatch' })
       } else {
-          const redirect_uri = 'http://localhost:5173/callback';
-          const client_id = import.meta.env.VITE_CLIENT_ID;
-          const client_secret = import.meta.env.VITE_CLIENT_SECRET;
+          const redirect_uri = 'http://localhost:5173/callback'
+          const client_id = import.meta.env.VITE_CLIENT_ID
+          const client_secret = import.meta.env.VITE_CLIENT_SECRET
   
-          const authHeader = 'Basic ' + btoa(client_id + ':' + client_secret);
+          const authHeader = 'Basic ' + btoa(client_id + ':' + client_secret)
   
           const authOptions = {
               method: 'POST',
@@ -35,19 +35,19 @@ const Callback = ({ handleLogin }) => {
                   grant_type: 'authorization_code',
                   client_id: client_id
               })
-          };
+          }
   
           try {
-              const response = await axios(authOptions);
-              const access_token = response.data.access_token;
-              console.log('access_token:', access_token);
-              sessionStorage.setItem('access_token', access_token);
-              setAccessToken(access_token);
+              const response = await axios(authOptions)
+              const access_token = response.data.access_token
+              console.log('access_token:', access_token)
+              sessionStorage.setItem('access_token', access_token)
+              setAccessToken(access_token)
           } catch (error) {
-              console.log('Error fetching token:', error);
+              console.log('Error fetching token:', error)
           }
       }
-  };
+  }
   
 
     fetchToken()

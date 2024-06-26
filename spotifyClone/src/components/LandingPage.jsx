@@ -14,12 +14,20 @@ const generateRandomString = (length) => {
   return text
 }
 
+const scopeList= [
+  'streaming',
+    'user-read-email',
+    'user-read-private',
+    'user-read-playback-state',
+    'user-modify-playback-state'
+]
+
 const handleLogin = () => {
   const state = generateRandomString(16)
   const queryParams = queryString.stringify({
     response_type: 'code',
     client_id: import.meta.env.VITE_CLIENT_ID,
-    scope: 'user-read-private user-read-email',
+    scope: scopeList,
     redirect_uri: 'http://localhost:5173/callback',
     state: state,
     show_dialog: true,

@@ -4,6 +4,7 @@ import Box from '@mui/material/Box'
 import axios from 'axios'
 import { Grid, Card, CardContent, CardMedia } from '@mui/material'
 import './AlbumPage.css'
+import BeforeLogin from './BeforeLogin'
 
 const AlbumPage = () => {
     const accessToken = sessionStorage.getItem('access_token')
@@ -30,9 +31,10 @@ const AlbumPage = () => {
 
     return (
         <>
+        {accessToken ? 
             <Box className='albumBox'>
-                <Typography variant='h3' className='head'>
-                    Albums
+                <Typography variant='h4' className='head'>
+                    Newly Released Albums 
                 </Typography>
                 <Grid container spacing={3} className='albumGrid'>
                     {album.map((album, index) => (
@@ -58,6 +60,7 @@ const AlbumPage = () => {
                     ))}
                 </Grid>
             </Box>
+            : <BeforeLogin />}
         </>
     )
 }

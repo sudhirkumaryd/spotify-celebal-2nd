@@ -1,6 +1,5 @@
 import { List, ListItem, ListItemText, ListItemIcon } from '@mui/material'
 import ArtTrackIcon from '@mui/icons-material/ArtTrack'
-import TheaterComedyIcon from '@mui/icons-material/TheaterComedy'
 import TrendingUpIcon from '@mui/icons-material/TrendingUp'
 import MusicPlayerSlider from './Player'
 import { Link } from 'react-router-dom'
@@ -15,12 +14,7 @@ const Sidebar= ()=>{
                     <ListItemText primary='ALBUM' className='text'/>
                 </ListItem>
                 <br></br>
-                <ListItem component={Link} to='/genre'>
-                    <ListItemIcon className='icon'><TheaterComedyIcon /></ListItemIcon>
-                    <ListItemText primary='GENRE' className='text'/>
-                </ListItem>
-                <br></br>
-                <ListItem component={Link} to='/topCharts'>
+                <ListItem component={Link} to='/'>
                     <ListItemIcon className='icon'><TrendingUpIcon /></ListItemIcon>
                     <ListItemText primary='TOP CHARTS' className='text'/>
                 </ListItem>

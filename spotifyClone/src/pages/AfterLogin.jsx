@@ -31,7 +31,7 @@ const AfterLogin = () => {
     return (
         <>
             <Box className='songBox'>
-                <Typography variant='h6' className='songHead'>
+                <Typography variant='h5' className='songHead'>
                     ENJOY SOME FEATURED PLAYLISTS
                 </Typography>
                 <Grid container spacing={3} className='songGrid'>
