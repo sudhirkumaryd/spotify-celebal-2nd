@@ -1,3 +1,7 @@
+.displayedSongs{
+    margin-left: 400px;
+}
+
 .heading{
     display: flex;
     flex-direction: column;
@@ -5,7 +9,7 @@
     margin-left: 14.5rem !important;
 }
 
-.songBox{
+.playlistBox{
     display: flex;
     flex-direction: column;
     margin-top: 2rem !important;
@@ -13,7 +17,15 @@
     padding-bottom: 4px !important;
 }
 
-.songHead{
+.playlistHead{
     padding-top: 2rem;
     padding-bottom: 1rem;
+}
+
+.playlistGrid{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    
 }

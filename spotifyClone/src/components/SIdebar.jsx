@@ -4,8 +4,9 @@ import TrendingUpIcon from '@mui/icons-material/TrendingUp'
 import MusicPlayerSlider from './Player'
 import { Link } from 'react-router-dom'
 import './Sidebar.css'
+import PropTypes from 'prop-types'
 
-const Sidebar= ()=>{
+const Sidebar= ({trackId})=>{
     return(
         <div className='sidebar'>
             <List className='sidebarItems'>
@@ -20,9 +21,13 @@ const Sidebar= ()=>{
                 </ListItem>
             </List>
             <br></br>
-            <MusicPlayerSlider />
+            <MusicPlayerSlider trackId={trackId} />
         </div>
     )
+}
+
+Sidebar.propTypes = {
+    trackId: PropTypes.string.isRequired
 }
 
 export default Sidebar

@@ -4,10 +4,13 @@ import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import axios from 'axios'
 import { Grid, Card, CardContent, CardMedia } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 
 const AfterLogin = () => {
     const [playlists, setPlaylists] = useState([])
+    const [selectedPlaylistId, setSelectedPlaylistId] = useState('')
     const accessToken = sessionStorage.getItem('access_token')
+    const navigate = useNavigate()
 
     useEffect(() => {
         const fetchFeaturedPlaylists = async () => {
@@ -17,7 +20,9 @@ const AfterLogin = () => {
                         'Authorization': `Bearer ${accessToken}`
                     }
                 })
-                setPlaylists(response.data.playlists.items)
+
+                const fetchedPlaylists = response.data.playlists.items
+                setPlaylists(fetchedPlaylists)
             } catch (err) {
                 console.log('Error fetching featured playlists:', err)
             }
@@ -28,6 +33,12 @@ const AfterLogin = () => {
         }
     }, [accessToken])
 
+    const handlePlaylistClick = (playlistId) => {
+        setSelectedPlaylistId(playlistId)
+        console.log(selectedPlaylistId)
+        navigate('/playlist', { state: { selectedPlaylistId: playlistId } }) 
+    }
+
     return (
         <>
             <Box className='songBox'>
@@ -37,9 +48,10 @@ const AfterLogin = () => {
                 <Grid container spacing={3} className='songGrid'>
                     {playlists.map((playlist, index) => (
                         <Grid item xs={3} key={index}>
-                            <a href={playlist.external_urls.spotify}
-                            target='_blank' rel='noopener noreferrer'
-                            style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <div
+                                onClick={() => handlePlaylistClick(playlist.id)}
+                                style={{ textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}
+                            >
                                 <Card>
                                     <CardMedia
                                         component='img'
@@ -53,7 +65,7 @@ const AfterLogin = () => {
                                         </Typography>
                                     </CardContent>
                                 </Card>
-                            </a>
+                            </div>
                         </Grid>
                     ))}
                 </Grid>
