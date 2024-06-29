@@ -14,13 +14,7 @@ const generateRandomString = (length) => {
   return text
 }
 
-const scopeList= [
-  'streaming',
-    'user-read-email',
-    'user-read-private',
-    'user-read-playback-state',
-    'user-modify-playback-state'
-]
+const scopeList = 'streaming user-read-playback-state user-modify-playback-state user-read-currently-playing'
 
 const handleLogin = () => {
   const state = generateRandomString(16)

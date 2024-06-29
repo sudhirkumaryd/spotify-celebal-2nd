@@ -43,7 +43,7 @@ const AfterLogin = () => {
         <>
             <Box className='songBox'>
                 <Typography variant='h5' className='songHead'>
-                    ENJOY SOME FEATURED PLAYLISTS
+                    ENJOY THE TOP PLAYLISTS
                 </Typography>
                 <Grid container spacing={3} className='songGrid'>
                     {playlists.map((playlist, index) => (

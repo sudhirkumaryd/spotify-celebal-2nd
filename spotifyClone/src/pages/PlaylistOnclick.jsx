@@ -32,7 +32,7 @@ const PlaylistOnClick = () => {
     return (
         <Box className='playlistBox'>
             <Typography variant='h5' className='playlistHead'>
-                Playlist Items for Playlist ID: {selectedPlaylistId}
+                Playlist Items 
             </Typography>
             <Grid container spacing={3}>
                 {playlistItems.map((track, index) => (

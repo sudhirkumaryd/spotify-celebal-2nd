@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useLocation } from 'react-router-dom'
-import { Box, Grid, Card, CardContent, Typography, CardMedia } from '@mui/material'
+import { Box, Grid, Card, CardContent, Typography} from '@mui/material'
 import './AlbumOnClick.css'
 
 const AlbumOnClick = () => {
@@ -31,20 +31,20 @@ const AlbumOnClick = () => {
 
     return (
         <Box className='AlbumBox'>
-            <Typography variant='h5' className='PlaylistHead'>
-                Album Tracks for Album ID: {selectedAlbumId}
+            <Typography variant='h5' className='AlbumHead'>
+                Album Tracks 
             </Typography>
             {albumTracks.length > 0 ? (
                 <Grid container spacing={3}>
                     {albumTracks.map((track, index) => (
                         <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
                             <Card className='AlbumGrid'>
-                                <CardMedia
+                                {/* <CardMedia
                                     component='img'
                                     height='100'
                                     image={track.album?.images?.[0]?.url || 'default-image-url'}
                                     alt='Track Cover'
-                                />
+                                /> */}
                                 <CardContent>
                                     <Typography variant='h6' component='p' className='ellipsis'>
                                         {track.name}
@@ -58,7 +58,7 @@ const AlbumOnClick = () => {
                     ))}
                 </Grid>
             ) : (
-                <Typography variant='body1'>No tracks available for this album.</Typography>
+                <Typography variant='body1'>LOADING...</Typography>
             )}
         </Box>
     )

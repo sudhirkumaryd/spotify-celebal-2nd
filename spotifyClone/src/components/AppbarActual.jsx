@@ -7,17 +7,16 @@ import Button from '@mui/material/Button'
 import InputBase from '@mui/material/InputBase'
 import SearchIcon from '@mui/icons-material/Search'
 import { Typography, MenuItem, Menu, Tooltip } from '@mui/material'
-import './AppbarActual.css'
 import { Link } from 'react-router-dom'
 import { useState, useCallback } from 'react'
 import axios from 'axios'
+import './AppbarActual.css'
 
-const AppbarActual = ({ handleLogin }) => {
+const AppbarActual = ({ handleLogin, setTrackId }) => {
     const [songResults, setSongResults] = useState([])
     const [albumResults, setAlbumResults] = useState([])
     const [artistResults, setArtistResults] = useState([])
     const [anchorEl, setAnchorEl] = useState(null)
-    //const [trackId, setTrackId]= useState('51EC3I1nQXpec4gDk0mQyP')
     const accessToken = sessionStorage.getItem('access_token')
 
     const Search = styled('div')(({ theme }) => ({
@@ -103,12 +102,11 @@ const AppbarActual = ({ handleLogin }) => {
         }
     }, [accessToken])
 
-
     const clearResults = () => {
         setSongResults([])
         setAlbumResults([])
         setArtistResults([])
-    }
+    };
 
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
@@ -126,9 +124,9 @@ const AppbarActual = ({ handleLogin }) => {
         }
     }
 
-    const handleSongClick = async (trackId) => {
-        console.log(trackId)
-        //setTrackId(trackId)
+    const handleSongClick = (trackId) => {
+        setTrackId(trackId)
+        handleClose()
     }
 
     return (
@@ -207,7 +205,8 @@ const AppbarActual = ({ handleLogin }) => {
 }
 
 AppbarActual.propTypes = {
-    handleLogin: PropTypes.func.isRequired
+    handleLogin: PropTypes.func.isRequired,
+    setTrackId: PropTypes.func.isRequired,
 }
 
 export default AppbarActual
